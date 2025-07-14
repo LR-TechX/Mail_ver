@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Welcome, {{ current_user.name }}</h3>
+
+<h4>Send Email</h4>
+<form method="post" action="{{ url_for('dashboard.send_email') }}">
+    <input name="to_email" placeholder="Recipient Email"><br>
+    <input name="subject" placeholder="Subject"><br>
+    <textarea name="body" placeholder="Message Body"></textarea><br>
+    <button type="submit">Send</button>
+</form>
+
+<h4>Add User</h4>
+<form method="post" action="{{ url_for('dashboard.add_user') }}">
+    <input name="name" placeholder="Name"><br>
+    <input name="email" placeholder="Email"><br>
+    <input name="password" placeholder="Password"><br>
+    <button type="submit">Add</button>
+</form>
+
+<h4>Sent Emails</h4>
+<ul>
+{% for email in records %}
+    <li>{{ email.subject }} → {{ email.receiver_id }} | Opened: {{ email.opened }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

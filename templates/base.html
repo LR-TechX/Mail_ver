@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MailVerifier</title>
+</head>
+<body>
+    <h2>MailVerifier</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>
