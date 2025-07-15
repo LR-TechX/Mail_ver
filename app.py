@@ -1,27 +1,23 @@
+# app.py
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from models import db
+from models import db, User
 from auth import auth_bp
 from dashboard import dashboard_bp
 from tracker import tracker_bp
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'fallback-secret')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///site.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
+# Correct way: initialize SQLAlchemy using the shared instance from models.py
 db.init_app(app)
-# rest unchanged…
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
-
-from models import User
 
 @login_manager.user_loader
 def load_user(user_id):
